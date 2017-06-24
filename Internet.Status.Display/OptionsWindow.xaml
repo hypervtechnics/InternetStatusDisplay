@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Internet.Status.Display"
         mc:Ignorable="d"
-        Title="Einstellungen" Height="556.773" Width="338.936" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+        Title="Einstellungen" Height="485.997" Width="338.936" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
     <Grid>
         <Button x:Name="button" Content="Schließen und Speichern" Margin="10,0,10,10" Height="20" VerticalAlignment="Bottom" Click="button_Click"/>
         <GroupBox x:Name="groupBox" Header="Benutzeroberfläche" Margin="10,10,10,0" VerticalAlignment="Top" Height="88">
@@ -33,7 +33,7 @@
                 <Label x:Name="label1_Copy3" Content="Transparenz:" HorizontalAlignment="Left" Margin="10,93,0,0" VerticalAlignment="Top"/>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="groupBox2" Header="Hosts" Margin="10,261,10,60">
+        <GroupBox x:Name="groupBox2" Header="Hosts" Margin="10,261,10,35">
             <Grid>
                 <ListBox x:Name="lbHosts" Margin="10,10,10,35" ToolTip="Hosts die angepingt werden sollen."/>
                 <Button x:Name="btnAddHost" Content="+" Margin="0,0,45,10" VerticalAlignment="Bottom" Click="btnAddHost_Click" HorizontalAlignment="Right" Width="30"/>
@@ -41,7 +41,6 @@
                 <TextBox x:Name="txtInputHost" Height="20" Margin="10,0,80,10" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" KeyDown="txtInputHost_KeyDown"/>
             </Grid>
         </GroupBox>
-        <Button x:Name="btnExit" Content="Anwendung beenden" Margin="10,0,10,35" Height="20" VerticalAlignment="Bottom" Click="btnExit_Click"/>
 
     </Grid>
 </Window>

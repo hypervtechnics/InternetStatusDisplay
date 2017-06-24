@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
@@ -26,6 +27,9 @@ namespace Internet.Status.Display
 
         private string selectedHost = string.Empty;
         private string lastSelectedHost = string.Empty;
+
+        private System.Windows.Forms.NotifyIcon notifyIcon = null;
+        private bool lockMode = false;
 
         public OverlayWindow()
         {
@@ -129,6 +133,8 @@ namespace Internet.Status.Display
 
                 lastPings[h] = task.Result;
             }
+
+            this.UpdateNotifyIcon();
         }
 
         private async Task<PingStatusResult> DoPing(string h)
@@ -194,19 +200,15 @@ namespace Internet.Status.Display
             }
         }
 
-        private void Window_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            new OptionWindow().ShowDialog();
-
-            this.Reload();
-        }
-
         #region Info Label
         private void Window_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            selectedHost = string.Empty;
-            BackgroundOpacity = 0;
-            this.UpdateInfoLabel();
+            if (!lockMode)
+            {
+                selectedHost = string.Empty;
+                BackgroundOpacity = 0;
+                this.UpdateInfoLabel(); 
+            }
         }
         private void UpdateInfoLabel()
         {
@@ -260,10 +262,13 @@ namespace Internet.Status.Display
         }
         private void A_MouseEnter(object sender, MouseEventArgs e)
         {
-            Arc a = sender as Arc;
-            selectedHost = a.Tag as string;
+            if (!lockMode)
+            {
+                Arc a = sender as Arc;
+                selectedHost = a.Tag as string;
 
-            this.UpdateInfoLabel();
+                this.UpdateInfoLabel(); 
+            }
         }
         private double BackgroundOpacity
         {
@@ -276,6 +281,117 @@ namespace Internet.Status.Display
                 }
             }
         }
+        #endregion
+
+        #region NotifyIcon
+        private void UpdateNotifyIcon()
+        {
+            if (notifyIcon == null)
+            {
+                notifyIcon = new System.Windows.Forms.NotifyIcon();
+                notifyIcon.Visible = true;
+
+                notifyIcon.Click += this.NotifyIcon_Click;
+            }
+
+            bool success = false;
+            int successfullLastPings = 0;
+
+            foreach (PingStatusResult result in lastPings.Values)
+            {
+                if (result.Status == PingStatus.Green || result.Status == PingStatus.Yellow)
+                {
+                    successfullLastPings++;
+                }
+            }
+
+            if (successfullLastPings >= (lastPings.Count / 2))
+            {
+                success = true;
+            }
+
+            if (success)
+            {
+                notifyIcon.Icon = Properties.Resources.online;
+            }
+            else
+            {
+                notifyIcon.Icon = Properties.Resources.offline;
+            }
+
+        }
+        private void NotifyIcon_Click(object sender, EventArgs e)
+        {
+            ContextMenu menu = new ContextMenu();
+
+            MenuItem exitButton = new MenuItem()
+            {
+                Header = "Beenden"
+            };
+            exitButton.Click += this.ContextMenuExitApp;
+
+            MenuItem settingsButton = new MenuItem()
+            {
+                Header = "Einstellungen"
+            };
+            settingsButton.Click += this.ContextMenuSettingsButton;
+
+            MenuItem lockModeButton = new MenuItem()
+            {
+                Header = lockMode ? "UI entsperren" : "UI sperren",
+                IsCheckable = true,
+                IsChecked = lockMode
+            };
+            lockModeButton.Click += this.ContextMenuLockModeButton;
+
+            MenuItem focusOnButton = new MenuItem()
+            {
+                Header = "Dauerhafte Anzeige von..."
+            };
+            foreach(string host in hosts.Keys)
+            {
+                MenuItem hostButton = new MenuItem();
+                hostButton.Header = host;
+                hostButton.Click += this.ContextMenuHostButton;
+
+                focusOnButton.Items.Add(hostButton);
+            }
+
+            menu.Items.Add(lockModeButton);
+            menu.Items.Add(focusOnButton);
+            menu.Items.Add(settingsButton);
+            menu.Items.Add(exitButton);
+
+            menu.Placement = System.Windows.Controls.Primitives.PlacementMode.Mouse;
+            menu.IsOpen = true;
+        }
+
+        private void ContextMenuHostButton(object sender, RoutedEventArgs e)
+        {
+            MenuItem item = sender as MenuItem;
+            selectedHost = (string) item.Header;
+        }
+        private void ContextMenuLockModeButton(object sender, RoutedEventArgs e)
+        {
+            lockMode = !lockMode;
+            (sender as MenuItem).IsChecked = lockMode;
+        }
+        private void ContextMenuSettingsButton(object sender, RoutedEventArgs e)
+        {
+            new OptionWindow().ShowDialog();
+
+            this.Reload();
+        }
+        private void ContextMenuExitApp(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Config.SaveConfig();
+            notifyIcon.Dispose();
+        } 
         #endregion
     }
 

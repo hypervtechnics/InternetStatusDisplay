@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Internet.Status.Display"
         xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" x:Class="Internet.Status.Display.OverlayWindow"
         mc:Ignorable="d"
-        Title="" Height="60" Width="160" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False" ShowActivated="False" Topmost="True" Opacity="0.7" MouseDoubleClick="Window_MouseDoubleClick" MouseRightButtonUp="Window_MouseRightButtonUp">
+        Title="" Height="60" Width="160" AllowsTransparency="True" WindowStyle="None" ResizeMode="NoResize" ShowInTaskbar="False" ShowActivated="False" Topmost="True" Opacity="0.7" MouseRightButtonUp="Window_MouseRightButtonUp" Closing="Window_Closing">
     <Window.Background>
         <SolidColorBrush x:Name="bgBrush" Color="Black"></SolidColorBrush>
     </Window.Background>

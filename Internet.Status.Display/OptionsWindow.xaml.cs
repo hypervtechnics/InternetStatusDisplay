@@ -102,12 +102,5 @@ namespace Internet.Status.Display
                 }
             }
         }
-
-        private void btnExit_Click(object sender, RoutedEventArgs e)
-        {
-            Config.SaveConfig();
-
-            Process.GetCurrentProcess().Kill();
-        }
     }
 }
