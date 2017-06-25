@@ -146,7 +146,7 @@ namespace Internet.Status.Display
             {
                 try
                 {
-                    return ping.Send(h);
+                    return ping.Send(h, Config.PingYellow);
                 }
                 catch (Exception)
                 {
