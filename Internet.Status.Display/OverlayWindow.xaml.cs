@@ -313,6 +313,7 @@ namespace Internet.Status.Display
             if (success)
             {
                 notifyIcon.Icon = Properties.Resources.online;
+                notifyIcon.Text = "Internet Status Display - " + successfullLastPings + "/" + lastPings.Count;
             }
             else
             {
