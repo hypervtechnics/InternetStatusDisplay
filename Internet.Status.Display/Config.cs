@@ -33,6 +33,7 @@ namespace Internet.Status.Display
             public int pingGreen = 100;
             public int pingYellow = 700;
             public double overlayOpacityWhilePermanent = 0.6;
+            public bool useLockMode = false;
         }
 
         #region Public Fields
@@ -111,6 +112,17 @@ namespace Internet.Status.Display
             set
             {
                 Holder.overlayOpacityWhilePermanent = value;
+            }
+        }
+        public static bool UseLockMode
+        {
+            get
+            {
+                return Holder.useLockMode;
+            }
+            set
+            {
+                Holder.useLockMode = value;
             }
         }
         #endregion

@@ -40,6 +40,8 @@ namespace Internet.Status.Display
                 new OptionWindow().ShowDialog();
             }
 
+            lockMode = Config.UseLockMode;
+
             this.Reload();
         }
 
@@ -404,6 +406,7 @@ namespace Internet.Status.Display
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            Config.UseLockMode = lockMode;
             Config.SaveConfig();
             notifyIcon.Dispose();
         } 
