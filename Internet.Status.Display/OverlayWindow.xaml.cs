@@ -339,7 +339,7 @@ namespace Internet.Status.Display
 
             MenuItem lockModeButton = new MenuItem()
             {
-                Header = lockMode ? "UI entsperren" : "UI sperren",
+                Header = "UI sperren",
                 IsCheckable = true,
                 IsChecked = lockMode
             };
@@ -349,7 +349,13 @@ namespace Internet.Status.Display
             {
                 Header = "Dauerhafte Anzeige von..."
             };
-            foreach(string host in hosts.Keys)
+            MenuItem loseFocusButton = new MenuItem()
+            {
+                Header = "Ausblenden",
+                Tag = 1 //Mark this button as lose focus button
+            };
+            loseFocusButton.Click += this.ContextMenuHostButton;
+            foreach (string host in hosts.Keys)
             {
                 MenuItem hostButton = new MenuItem();
                 hostButton.Header = host;
@@ -357,6 +363,7 @@ namespace Internet.Status.Display
 
                 focusOnButton.Items.Add(hostButton);
             }
+            focusOnButton.Items.Add(loseFocusButton);
 
             menu.Items.Add(lockModeButton);
             menu.Items.Add(focusOnButton);
@@ -370,7 +377,14 @@ namespace Internet.Status.Display
         private void ContextMenuHostButton(object sender, RoutedEventArgs e)
         {
             MenuItem item = sender as MenuItem;
-            selectedHost = (string) item.Header;
+            if ((int) item.Tag == 1)
+            {
+                selectedHost = string.Empty;
+            }
+            else
+            {
+                selectedHost = (string) item.Header;
+            }
         }
         private void ContextMenuLockModeButton(object sender, RoutedEventArgs e)
         {
