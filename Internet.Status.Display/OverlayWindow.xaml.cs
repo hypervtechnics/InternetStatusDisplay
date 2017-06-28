@@ -30,7 +30,7 @@ namespace Internet.Status.Display
 
         private System.Windows.Forms.NotifyIcon notifyIcon = null;
         private bool lockMode = false;
-
+        
         public OverlayWindow()
         {
             InitializeComponent();
@@ -377,7 +377,7 @@ namespace Internet.Status.Display
         private void ContextMenuHostButton(object sender, RoutedEventArgs e)
         {
             MenuItem item = sender as MenuItem;
-            if ((int) item.Tag == 1)
+            if (item.Tag != null)
             {
                 selectedHost = string.Empty;
             }
@@ -455,7 +455,6 @@ namespace Internet.Status.Display
                 host = value;
             }
         }
-
         public PingStatus Status
         {
             get
@@ -468,7 +467,6 @@ namespace Internet.Status.Display
                 status = value;
             }
         }
-
         public long Time
         {
             get
