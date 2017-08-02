@@ -5,10 +5,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Internet.Status.Display"
         mc:Ignorable="d"
-        Title="Einstellungen" Height="134.917" Width="0" MinHeight="485" MinWidth="310" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+        Title="Einstellungen" Height="60.032" Width="93.422" MinHeight="320" MinWidth="600" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
     <Grid>
         <Button x:Name="button" Content="Schließen und Speichern" Margin="10,0,10,10" Height="20" VerticalAlignment="Bottom" Click="button_Click"/>
-        <GroupBox x:Name="groupBox" Header="Benutzeroberfläche" Margin="10,10,10,0" VerticalAlignment="Top" Height="88">
+        <GroupBox x:Name="groupBox" Header="Benutzeroberfläche" Margin="10,10,0,0" VerticalAlignment="Top" Height="88" HorizontalAlignment="Left" Width="282">
             <Grid>
                 <Label x:Name="label" Content="Bilschirmecke:" HorizontalAlignment="Left" Margin="10,6,0,0" VerticalAlignment="Top"/>
                 <ComboBox x:Name="cmbScreenCorner" Margin="125,10,10,0" VerticalAlignment="Top" SelectedIndex="1" HorizontalContentAlignment="Center">
@@ -18,27 +18,34 @@
                     <ComboBoxItem Content="Top right"/>
                 </ComboBox>
                 <Label x:Name="label1" Content="Abstand zur Kante:" HorizontalAlignment="Left" Margin="10,32,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="txtEdgePadding" Height="23" Margin="125,37,10,0" Text="10" VerticalAlignment="Top" TextAlignment="Center"/>
+                <TextBox x:Name="txtEdgePadding" Height="23" Margin="125,37,10,0" Text="10" VerticalAlignment="Top" TextAlignment="Center" VerticalContentAlignment="Center"/>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="groupBox1" Header="Ping" Margin="10,103,10,0" Height="153" VerticalAlignment="Top">
+        <GroupBox x:Name="groupBox1" Header="Ping" Margin="10,103,0,41" HorizontalAlignment="Left" Width="282">
             <Grid>
                 <Label x:Name="label1_Copy" Content="Gelber Ping bis:" HorizontalAlignment="Left" Margin="10,38,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="txtPingYellow" Height="23" Margin="109,43,10,0" Text="700" VerticalAlignment="Top" TextAlignment="Center" ToolTip="Ab dem grünen Wert bis zu diesem Wert wird ein Ping als OK bewertet und gelb angezeigt."/>
+                <TextBox x:Name="txtPingYellow" Height="23" Margin="109,43,10,0" Text="700" VerticalAlignment="Top" TextAlignment="Center" ToolTip="Ab dem grünen Wert bis zu diesem Wert wird ein Ping als OK bewertet und gelb angezeigt." VerticalContentAlignment="Center"/>
                 <Label x:Name="label1_Copy1" Content="Grüner Ping bis:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="txtPingGreen" Height="23" Margin="109,15,10,0" Text="100" VerticalAlignment="Top" TextAlignment="Center" ToolTip="Bis zu diesem Wert wird ein Ping als Gut bewertet und grün angezeigt."/>
+                <TextBox x:Name="txtPingGreen" Height="23" Margin="109,15,10,0" Text="100" VerticalAlignment="Top" TextAlignment="Center" ToolTip="Bis zu diesem Wert wird ein Ping als Gut bewertet und grün angezeigt." VerticalContentAlignment="Center"/>
                 <Label x:Name="label1_Copy2" Content="Intervall (ms):" HorizontalAlignment="Left" Margin="10,67,0,0" VerticalAlignment="Top"/>
-                <TextBox x:Name="txtPingInterval" Height="23" Margin="109,71,10,0" Text="1000" VerticalAlignment="Top" TextAlignment="Center" ToolTip="Gibt an wie oft ein Ping gesendet werden soll."/>
+                <TextBox x:Name="txtPingInterval" Height="23" Margin="109,71,10,0" Text="1000" VerticalAlignment="Top" TextAlignment="Center" ToolTip="Gibt an wie oft ein Ping gesendet werden soll." VerticalContentAlignment="Center"/>
                 <Slider x:Name="slOpacity" Margin="109,99,10,0" VerticalAlignment="Top" ToolTip="Wenn durchgehende Statusinformationen angezeigt werden, wird das Overlay um diesen Wert verdunkelt. Links: Volle Transparenz" Maximum="100" Minimum="1" SmallChange="1" LargeChange="10" Interval="1" IsSnapToTickEnabled="True"/>
                 <Label x:Name="label1_Copy3" Content="Transparenz:" HorizontalAlignment="Left" Margin="10,93,0,0" VerticalAlignment="Top"/>
             </Grid>
         </GroupBox>
-        <GroupBox x:Name="groupBox2" Header="Hosts" Margin="10,261,10,35">
+        <GroupBox x:Name="groupBox2" Header="Hosts" Margin="300,103,10,41">
             <Grid>
                 <ListBox x:Name="lbHosts" Margin="10,10,10,35" ToolTip="Hosts die angepingt werden sollen."/>
                 <Button x:Name="btnAddHost" Content="+" Margin="0,0,45,10" VerticalAlignment="Bottom" Click="btnAddHost_Click" HorizontalAlignment="Right" Width="30"/>
                 <Button x:Name="btnRemHost" Content="-" Margin="0,0,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="30" Click="btnRemHost_Click"/>
                 <TextBox x:Name="txtInputHost" Height="20" Margin="10,0,80,10" TextWrapping="Wrap" Text="" VerticalAlignment="Bottom" KeyDown="txtInputHost_KeyDown"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox x:Name="groupBox3" Header="Logbuch" Margin="300,10,10,0" VerticalAlignment="Top" Height="88">
+            <Grid>
+                <Label x:Name="label1_Copy4" Content="Dateiname:" HorizontalAlignment="Left" Margin="10,32,0,0" VerticalAlignment="Top"/>
+                <TextBox x:Name="txtLogFilename" Height="23" Margin="85,37,10,0" Text="Internet.Crashes.log" VerticalAlignment="Top" TextAlignment="Center" VerticalContentAlignment="Center"/>
+                <CheckBox x:Name="chkUseLog" Content="Internetabstürze in Logdatei schreiben" Margin="10,12,10,0" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
             </Grid>
         </GroupBox>
 

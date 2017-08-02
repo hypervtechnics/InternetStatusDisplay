@@ -1,6 +1,7 @@
 ﻿using Microsoft.Expression.Shapes;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using System.Windows;
@@ -30,6 +31,9 @@ namespace Internet.Status.Display
 
         private System.Windows.Forms.NotifyIcon notifyIcon = null;
         private bool lockMode = false;
+        
+        private bool hadConnection = false;
+        private bool hasConnection = false;
         
         public OverlayWindow()
         {
@@ -134,6 +138,49 @@ namespace Internet.Status.Display
                 }
 
                 lastPings[h] = task.Result;
+            }
+
+            //Determine whether there is a connection
+            hadConnection = hasConnection;
+            int successfullLastPings = 0;
+
+            foreach (PingStatusResult result in lastPings.Values)
+            {
+                if (result.Status == PingStatus.Green || result.Status == PingStatus.Yellow)
+                {
+                    successfullLastPings++;
+                }
+            }
+
+            //TODO: Create selectable offline detection behaviour
+            if (successfullLastPings >= (lastPings.Count / 2))
+            {
+                hasConnection = true;
+            }
+            else
+            {
+                hasConnection = false;
+            }
+
+            if (Config.UseLog)
+            {
+                try
+                {
+                    string timestampString = DateTime.Now.Day + "." + DateTime.Now.Month + "." + DateTime.Now.Year + " - " + DateTime.Now.Hour + ":" + DateTime.Now.Minute + ":" + DateTime.Now.Second + "." + DateTime.Now.Millisecond;
+
+                    if (hasConnection && !hadConnection)
+                    {
+                        File.AppendAllLines(Config.LogFilename, new string[] { "Online @ " + timestampString });
+                    }
+                    else if(!hasConnection && hadConnection)
+                    {
+                        File.AppendAllLines(Config.LogFilename, new string[] { "Offline @ " + timestampString });
+                    }
+                }
+                catch (Exception ex)
+                {
+                    notifyIcon.ShowBalloonTip(10000, "Fehler", "Es ist ein Fehler beim Schreiben der Internetabstürze aufgetreten.", System.Windows.Forms.ToolTipIcon.Error);
+                } 
             }
 
             this.UpdateNotifyIcon();
@@ -296,32 +343,16 @@ namespace Internet.Status.Display
                 notifyIcon.Click += this.NotifyIcon_Click;
             }
 
-            bool success = false;
-            int successfullLastPings = 0;
-
-            foreach (PingStatusResult result in lastPings.Values)
+            if (hasConnection)
             {
-                if (result.Status == PingStatus.Green || result.Status == PingStatus.Yellow)
-                {
-                    successfullLastPings++;
-                }
-            }
-
-            if (successfullLastPings >= (lastPings.Count / 2))
-            {
-                success = true;
-            }
-
-            if (success)
-            {
+                notifyIcon.Text = "Internet Status Display - Online";
                 notifyIcon.Icon = Properties.Resources.online;
-                notifyIcon.Text = "Internet Status Display - " + successfullLastPings + "/" + lastPings.Count;
             }
             else
             {
+                notifyIcon.Text = "Internet Status Display - Offline";
                 notifyIcon.Icon = Properties.Resources.offline;
             }
-
         }
         private void NotifyIcon_Click(object sender, EventArgs e)
         {

@@ -38,6 +38,8 @@ namespace Internet.Status.Display
                 Config.PingInterval = int.Parse(txtPingInterval.Text);
                 Config.PingYellow = int.Parse(txtPingYellow.Text);
                 Config.ScreenEdgePadding = int.Parse(txtEdgePadding.Text);
+                Config.UseLog = chkUseLog.IsChecked.Value;
+                Config.LogFilename = txtLogFilename.Text;
             }
             catch (Exception)
             {
@@ -60,6 +62,9 @@ namespace Internet.Status.Display
             txtPingYellow.Text = "" + Config.PingYellow;
             txtPingInterval.Text = "" + Config.PingInterval;
             slOpacity.Value = Config.OverlayOpacityWhilePermanent * 100;
+
+            txtLogFilename.Text = Config.LogFilename;
+            chkUseLog.IsChecked = Config.UseLog;
 
             cmbScreenCorner.SelectedIndex = (int) Config.Corner;
         }

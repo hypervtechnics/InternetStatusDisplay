@@ -34,6 +34,8 @@ namespace Internet.Status.Display
             public int pingYellow = 700;
             public double overlayOpacityWhilePermanent = 0.6;
             public bool useLockMode = false;
+            public bool useLog = false;
+            public string logFilename = "Internet.Crashes.log";
         }
 
         #region Public Fields
@@ -123,6 +125,28 @@ namespace Internet.Status.Display
             set
             {
                 Holder.useLockMode = value;
+            }
+        }
+        public static bool UseLog
+        {
+            get
+            {
+                return Holder.useLog;
+            }
+            set
+            {
+                Holder.useLog = value;
+            }
+        }
+        public static string LogFilename
+        {
+            get
+            {
+                return Holder.logFilename;
+            }
+            set
+            {
+                Holder.logFilename = value;
             }
         }
         #endregion
